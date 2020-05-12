@@ -1,0 +1,59 @@
+from gpiozero import LED
+import RPi.GPIO
+from guizero import App , Text , TextBox , PushButton
+from time import sleep
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+
+led_red=LED(18)
+
+MORSE_CODE_DICTIONARY = { ' ':'/', 'A':'.-', 'B':'-...', 'C':'-.-.', 'D':'-..', 'E':'.', 'F':'..-.', 'G':'--.', 'H':'....',
+                    'I':'..', 'J':'.---', 'K':'-.-', 'L':'.-..', 'M':'--', 'N':'-.','O':'---', 'P':'.--.', 'Q':'--.-',
+                    'R':'.-.', 'S':'...', 'T':'-','U':'..-', 'V':'...-', 'W':'.--','X':'-..-', 'Y':'-.--', 'Z':'--..'}
+
+
+
+def Convert_Text_to_MorseCode():
+    text=name.value
+    txt = text[0:12]
+    code = [MORSE_CODE_DICTIONARY[i.upper()] + ' ' for i in txt if i.upper() in MORSE_CODE_DICTIONARY.keys()]
+    morse=''.join(code)
+    print(morse)
+    for m in morse:
+        if m=='.':
+            led_red.on()  #led turns on for 1 sec to represent dot '.'
+            sleep(1)
+            led_red.off()
+            sleep(1)
+            
+            
+        elif m=='-':
+            led_red.on() # led turns on for 2 sec to represent dash '-'
+            sleep(2)
+            led_red.off()
+            sleep(1)
+            
+        else:
+            sleep(1)
+            
+
+
+
+action = App(title = " Morse Code Converter ")
+intro = Text(action,text="Enetr your name to convert in Morse code ")
+name= TextBox(action,width=12)
+
+txt=PushButton(action,command=Convert_Text_to_MorseCode,text="Submit")
+
+
+action.display()
+
+
+        
+
+
+        
+        
+
+        
+
